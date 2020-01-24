@@ -6,6 +6,6 @@ socket.on('server-rooms', (data)=>{
         document.getElementById("box-name").innerHTML += `<p><span>${data[i].id}</span></p>`;
         document.getElementById("box-worth").innerHTML += `<p><span>$${data[i].worth}</span></p>`;
         document.getElementById("box-online").innerHTML += `<p><span>${data[i].users}</span></p>`;
-        document.getElementById("box-action").innerHTML += `<p><button>Join</button></p>`;
+        document.getElementById("box-action").innerHTML += `<p><button onclick="window.location.href = '${document.location.href}${data[i].id.toLowerCase()}';">Join</button></p>`;
     }
 });

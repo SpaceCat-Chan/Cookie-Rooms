@@ -41,6 +41,10 @@ io.on('connection', (socket)=>{
     console.log(`${socket.id} has connected`);
     socket.emit('server-rooms', server_rooms);
 
+    socket.on('join-room', (room)=>{
+        socket.join(room);
+    });
+
 });
 
 /*setInterval(function(){
