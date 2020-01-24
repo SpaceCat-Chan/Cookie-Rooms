@@ -23,15 +23,15 @@ app.get('/', function (req, res) {
 app.get('/:room', function (req, res) {
     var exists = false;
     for (var i in server_rooms) {
-        if (req.params.room == server_rooms[i].id) {
+        if (req.params.room.toLowerCase() == server_rooms[i].id) {
             exists = true;
         }
     }
-    if (exists == true) {
+    if (exists == true || req.params.room.toLowerCase() == "favicon.ico") {
         res.sendFile(__dirname + '/public/templates/room.html');
     }
     else {
-        server_rooms.push(new Newroom(req.params.room));
+        server_rooms.push(new Newroom(req.params.room.toLowerCase()));
         res.send("<h1>Room created</h1>");
     }
 });
