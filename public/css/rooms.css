@@ -11,6 +11,15 @@ body {
     display: flex;
     justify-content: space-between;
     width: 50%;
+    height: 30vh;
+    overflow: auto;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#info-box {
+    padding-top: 50px;
+    width: 50%;
     margin-right: auto;
     margin-left: auto;
 }
@@ -21,4 +30,5 @@ button {
     width: 100px;
     height: 24px;
     background-color: #ffe017;
+    margin-right: 10px;
 }
