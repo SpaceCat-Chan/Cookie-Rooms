@@ -43,6 +43,29 @@ io.on('connection', (socket)=>{
 
     socket.on('join-room', (room)=>{
         socket.join(room);
+        for (var i in server_rooms) {
+            if (room == server_rooms[i].id) {
+                socket.emit('room-data', server_rooms[i]);
+            }
+        }
+    });
+
+    socket.on('playerpos', (data)=>{
+        data.socket = socket.id;
+        socket.broadcast.to(data.room).emit('playerpos', data);
+    });
+
+    socket.on('cookie-click', (room)=>{
+        for (var i in server_rooms) {
+            if (room == server_rooms[i].id) {
+                server_rooms[i].worth += server_rooms[i].click_income;
+                io.in(room).emit('room-data', server_rooms[i]);
+            }
+        }
+    });
+
+    socket.on('disconnect', ()=>{
+        io.emit('disconnect', socket.id);
     });
 
 });
@@ -59,4 +82,5 @@ function Newroom(id) {
     this.id = id;
     this.worth = 0;
     this.users = 0;
+    this.click_income = 1;
 }
