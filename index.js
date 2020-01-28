@@ -58,12 +58,14 @@ io.on("connection", socket => {
 
     socket.on("cookie-click", () => {
         var socket_data = findSocket();
-        server_rooms[socket_data.room_index].worth +=
-            server_rooms[socket_data.room_index].click_income;
-        io.in(socket_data.id).emit(
-            "room-data",
-            server_rooms[socket_data.room_index]
-        );
+        if (socket_data) {
+            server_rooms[socket_data.room_index].worth +=
+                server_rooms[socket_data.room_index].click_income;
+            io.in(socket_data.id).emit(
+                "room-data",
+                server_rooms[socket_data.room_index]
+            );
+        }
     });
 
     socket.on("disconnect", () => {

@@ -1,4 +1,4 @@
-const socket = io.connect("http://localhost:8555");
+const socket = io.connect("http://46.101.195.219:8555");
 
 socket.emit("server-rooms");
 
