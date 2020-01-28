@@ -37,7 +37,7 @@ socket.on("playerpos", data => {
 
 function mousePressed() {
     if (dist(mouseX, mouseY, cookie.pos.x, cookie.pos.y) < cookie.radius / 2) {
-        socket.emit("cookie-click", urllink);
+        socket.emit("cookie-click");
     }
 }
 

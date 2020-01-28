@@ -56,31 +56,39 @@ io.on("connection", socket => {
         socket.broadcast.to(data.room).emit("playerpos", data);
     });
 
-    socket.on("cookie-click", room => {
-        server_rooms[findSocket(2)].worth +=
-            server_rooms[findSocket(2)].click_income;
-        io.in(findSocket(1)).emit("room-data", server_rooms[findSocket(2)]);
+    socket.on("cookie-click", () => {
+        var socket_data = findSocket();
+        server_rooms[socket_data.room_index].worth +=
+            server_rooms[socket_data.room_index].click_income;
+        io.in(socket_data.id).emit(
+            "room-data",
+            server_rooms[socket_data.room_index]
+        );
     });
 
     socket.on("disconnect", () => {
-        io.in(findSocket(1)).emit("disconnect", socket.id);
-        if (server_rooms[findSocket(2)]) {
-            server_rooms[findSocket(2)].users.splice(findSocket(3), 1);
+        var socket_data = findSocket();
+        if (socket_data) {
+            io.in(socket_data.id).emit("disconnect", socket.id);
+            if (server_rooms[socket_data.room_index]) {
+                server_rooms[socket_data.room_index].users.splice(
+                    socket_data.user_index,
+                    1
+                );
+            }
         }
     });
 
-    function findSocket(option) {
+    function findSocket() {
         for (var i in server_rooms) {
             for (var j in server_rooms[i].users) {
                 if (socket.id == server_rooms[i].users[j]) {
-                    switch (option) {
-                        case 1:
-                            return server_rooms[i].id;
-                        case 2:
-                            return i;
-                        case 3:
-                            return j;
-                    }
+                    var socket_data = {
+                        id: server_rooms[i].id,
+                        room_index: i,
+                        user_index: j
+                    };
+                    return socket_data;
                 }
             }
         }
