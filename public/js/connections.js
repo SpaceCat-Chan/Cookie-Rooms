@@ -1,18 +1,19 @@
-const socket = io.connect('http://localhost:8555');
+const socket = io.connect("http://localhost:8555");
 
 var urllink = window.location.pathname;
-urllink = urllink.split("/").slice(-1).join("/");
+urllink = urllink
+    .split("/")
+    .slice(-1)
+    .join("/");
 
-socket.emit('join-room', urllink);
+socket.emit("join-room", urllink);
 
-socket.on('disconnect', (data)=>{
-    if (players[data]) {
-        delete players[data];
-    }
+socket.on("disconnect", data => {
+    delete players[data];
 });
 
 function realtimeUpdate() {
-    socket.emit('playerpos', {
+    socket.emit("playerpos", {
         x: mouseX,
         y: mouseY,
         screenW: window.innerWidth,
@@ -21,7 +22,7 @@ function realtimeUpdate() {
     });
 }
 
-socket.on('playerpos', (data)=>{
+socket.on("playerpos", data => {
     var percentagePosX = data.x / data.screenW;
     var percentagePosY = data.y / data.screenH;
     data.x = window.innerWidth * percentagePosX;
@@ -35,11 +36,11 @@ socket.on('playerpos', (data)=>{
 });
 
 function mousePressed() {
-	if(dist(mouseX, mouseY, cookie.pos.x, cookie.pos.y) < cookie.radius / 2){
-		socket.emit('cookie-click', urllink);
-	}
+    if (dist(mouseX, mouseY, cookie.pos.x, cookie.pos.y) < cookie.radius / 2) {
+        socket.emit("cookie-click", urllink);
+    }
 }
 
-socket.on('room-data', (data)=>{
+socket.on("room-data", data => {
     cookie.worth = data.worth;
 });
