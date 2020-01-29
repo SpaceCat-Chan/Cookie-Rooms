@@ -6,7 +6,9 @@ urllink = urllink
     .slice(-1)
     .join("/");
 
-socket.emit("join-room", urllink);
+function Ready() {
+    socket.emit("join-room", urllink);
+}
 
 socket.on("disconnect", data => {
     delete players[data];

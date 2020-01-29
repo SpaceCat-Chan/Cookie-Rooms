@@ -4,6 +4,7 @@ let players = [];
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     cookie = new Cookie();
+    Ready()
 }
 
 function windowResized() {
